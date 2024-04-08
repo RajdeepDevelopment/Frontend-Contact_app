@@ -25,7 +25,6 @@ export const getTableDataAsync = createAsyncThunk(
 export const getTableDataUpdateAsync = createAsyncThunk(
   "counter/getTableDataUpdate",
   async (argument) => {
-    console.log(argument, "argument");
     return { data: argument };
   }
 );

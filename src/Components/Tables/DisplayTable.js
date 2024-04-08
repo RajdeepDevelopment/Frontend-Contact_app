@@ -10,34 +10,16 @@ import {
   getTableDataUpdateAsync,
   selectTableData,
 } from "../../Redux_Thunk/ReduxThunk";
+import { capitalizeFirstLetter } from "../../Hooks/Hooks";
 
-async function getTables(
-  skip,
-  limit,
-  setIsFetching,
-  setTableCount,
-  signal,
-  dispatch
-) {
-  setIsFetching(true);
-  const response = await getTableData(skip, limit, signal);
-  setIsFetching(false);
-  if (response?.status == 200) {
-    dispatch(getTableDataUpdateAsync(response.data));
-    setTableCount(response.dataLength);
-  }
-}
-function capitalizeFirstLetter(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+
+
 
 function DisplayTable() {
   const dispatch = useDispatch();
   const tableData = useSelector(selectTableData);
 
-  useEffect(() => {
-    console.log(tableData, "TableDataGloble");
-  }, [tableData]);
+
   // States Used
   const [isFetching, setIsFetching] = useState(false);
   const [skip, setSkip] = useState(0);
@@ -161,7 +143,6 @@ function DisplayTable() {
     const abortController = new AbortController();
     const signal = abortController.signal;
     dispatch(getTableDataAsync([skip, limit, signal]));
-    getTables(skip, limit, setIsFetching, setTableCount, signal, dispatch);
     setRow(-1);
     setCol(-1);
     // Cleanup function to cancel the API, if the component is unmounted or ...dependencies change
